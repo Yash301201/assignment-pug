@@ -1,0 +1,198 @@
+extends layouts/layout
+
+include mixins/header
+include mixins/footer
+
+block content
+
+    // Page 1: medical expense details
+    .page
+
+        +header(data, "Medical & Travel Expense Request")
+
+        p.intro-text
+            strong= data.workerName
+            |  requested reimbursement for the following medical and/or travel expenses.
+
+        h3.section-title Prescription Drugs
+
+        table.form-table
+
+            thead
+
+                tr
+                    th Drug Name
+                    th Prescription Date
+                    th Date Purchased
+                    th Healthcare Provider
+                    th Paid Amount
+
+            tbody
+
+                each drug in data.prescriptionDrugs
+
+                    tr
+                        td= drug.drugName
+                        td= drug.prescriptionDate
+                        td= drug.purchaseDate
+                        td= drug.healthcareProvider
+                        td= drug.amount
+
+        // -----------------------------
+        // Over The Counter Drugs
+        // -----------------------------
+
+        h3.section-title Over-the-Counter Drugs
+
+        table.form-table
+
+            thead
+
+                tr
+
+                    th Drug Name
+                    th Date Purchased
+                    th Paid Amount
+                    th Seller's Name
+                    th Reason for Purchasing
+
+            tbody
+
+                each drug in data.overTheCounterDrugs
+
+                    tr
+
+                        td= drug.drugName
+                        td= drug.purchaseDate
+                        td= drug.amount
+                        td= drug.seller
+                        td= drug.reason
+
+        // -----------------------------
+        // Medical Supplies
+        // -----------------------------
+
+        h3.section-title Bandages, Braces or Other Medical Supplies
+
+        table.form-table
+
+            thead
+
+                tr
+
+                    th Item Purchased
+                    th Date Purchased
+                    th Was this Prescribed?
+                    th Healthcare Provider Name
+                    th Paid Amount
+                    th Seller's Name
+
+            tbody
+
+                each item in data.medicalSupplies
+
+                    tr
+
+                        td= item.item
+                        td= item.purchaseDate
+                        td= item.prescribed
+                        td= item.healthcareProvider
+                        td= item.amount
+                        td= item.seller
+        +footer(1,2,data)
+
+    // Page 2: mileage, parking and bus/taxi expenses
+    .page.page-break
+
+        // =============================
+        // PAGE 2
+        // =============================
+
+        h3.section-title Parking for Medical Appointments
+
+        table.form-table
+
+            thead
+
+                tr
+
+                    th.wide-column Address of Healthcare Provider/Medical Facility
+                    th Appointment Date
+                    th Paid Amount
+                    th Meter Used?
+                    th Meter Number
+
+            tbody
+
+                each parking in data.parkingExpenses
+
+                    tr
+
+                        td= parking.address
+                        td= parking.date
+                        td= parking.amount
+                        td= parking.meterUsed
+                        td= parking.meterNumber
+
+        h3.section-title Mileage to Medical Appointments
+
+        p.mileage-note
+            | The WCB will generally reimburse only those transportation costs which are in excess of costs that would be
+            | incurred by the worker while travelling to and from work.
+
+        table.form-table
+
+            thead
+
+                tr
+
+                    th Appointment Date
+                    th Healthcare Provider Address
+                    th Workplace Address
+                    th Round Trip Distance
+
+            tbody
+
+                each mileage in data.mileageExpenses
+
+                    tr
+
+                        td= mileage.appointmentDate
+                        td= mileage.healthcareAddress
+                        td= mileage.workplaceAddress
+                        td= mileage.distance
+
+        h3.section-title Bus or Taxi Fare for Medical Appointments
+
+        table.form-table
+
+            thead
+
+                tr
+
+                    th Appointment Date
+                    th Address of Starting Point
+                    th Address of Healthcare Provider
+                    th Bus / Taxi
+                    th Total Fare Paid 
+
+            tbody
+
+                each trip in data.busTaxiExpenses
+
+                    tr
+
+                        td= trip.appointmentDate
+                        td= trip.startingPoint
+                        td= trip.destination
+                        td= trip.transport
+                        td= trip.fare
+
+        br
+
+        div.notice
+            span.checkbox ✓
+
+            span= data.privacyNotice
+
+        +footer(2,2,data)

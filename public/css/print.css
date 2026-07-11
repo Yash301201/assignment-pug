@@ -1,0 +1,111 @@
+/* ===========================================
+   PRINT SETTINGS
+=========================================== */
+
+@page{
+
+    size:A4;
+
+    margin:12mm;
+
+}
+
+/* ===========================================
+   PRINT BODY
+=========================================== */
+
+@media print{
+
+    body{
+
+        background:#fff;
+
+        margin:0;
+
+        padding:0;
+
+    }
+
+    /* Fixed header for printing so it repeats on each page */
+    .page-header{
+        position:fixed;
+        top:0;
+        left:12mm;
+        right:12mm;
+        background:#fff;
+        z-index:10;
+        padding-bottom:8px;
+    }
+
+    .page{
+        margin:0;
+        box-shadow:none;
+        page-break-inside:avoid;
+        break-inside:avoid;
+        display:block;
+        width:auto;
+        padding:0;
+    }
+
+    .page.page-break{
+        page-break-before:always;
+        break-before:page;
+    }
+
+    .page:last-child{
+        page-break-after:auto;
+    }
+
+    table{
+
+        page-break-inside:auto;
+
+    }
+
+    tr{
+
+        page-break-inside:avoid;
+
+        page-break-after:auto;
+
+    }
+
+    thead{
+
+        display:table-header-group;
+
+    }
+
+    tfoot{
+
+        display:table-footer-group;
+
+    }
+
+    img{
+
+        max-width:100%;
+
+    }
+
+    .page-footer{
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-end;
+        margin-top:25px;
+        padding-top:10px;
+        border-top:2px solid #000;
+        font-size:14px;
+        position:static;
+        bottom:auto;
+    }
+
+    a{
+
+        text-decoration:none;
+
+        color:#000;
+
+    }
+
+}

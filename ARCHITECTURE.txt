@@ -1,0 +1,49 @@
+Diona Assignment 2 - Architecture and File Structure
+
+This project is a Node.js/Express web app using Pug for server-side templates.
+It renders two main form/report pages:
+- Medical & Travel Expense Request
+- Worker Progress Report
+
+Architecture Overview:
+- `app.js`: Application entry point. Configures Express, static assets, view engine, and routes.
+- `routes/forms.js`: Defines routes for rendering the medical report and worker report pages.
+- `views/`: Pug templates used to generate HTML for the app.
+    - `layouts/layout.pug`: Common layout wrapper for all pages.
+    - `mixins/`: Shared reusable template fragments, including header, footer, checkbox, and input line components.
+    - `medical.pug`: Medical expense report page template.
+    - `worker.pug`: Worker progress report page template.
+- `public/`: Static web assets served to the browser.
+    - `css/style.css`: Main styling for both pages, including layout, tables, forms, and page-print styles.
+    - `css/print.css`: Print-specific CSS for page sizing and print preview behavior.
+    - `images/`: Logo and other graphical assets.
+- `data/`: Sample data files used by the app to populate the reports.
+    - `medicalData1.js`, `medicalData2.js`: Medical report data sets.
+    - `workerData1.js`, `workerData2.js`: Worker report data sets.
+
+File Structure Summary:
+- `app.js`
+- `package.json`
+- `routes/forms.js`
+- `views/layouts/layout.pug`
+- `views/mixins/header.pug`
+- `views/mixins/footer.pug`
+- `views/mixins/checkbox.pug`
+- `views/mixins/inputLine.pug`
+- `views/medical.pug`
+- `views/worker.pug`
+- `public/css/style.css`
+- `public/css/print.css`
+- `public/images/logo.png` (or similar logo asset)
+- `data/medicalData1.js`
+- `data/medicalData2.js`
+- `data/workerData1.js`
+- `data/workerData2.js`
+
+How It Works:
+- The Express app renders Pug templates using data from the data modules.
+- Each page uses a `.page` wrapper for proper screen and print formatting.
+- Shared header and footer mixins keep the layout consistent across reports.
+- Print CSS ensures each `.page` becomes a separate print page with page break rules.
+
+This architecture keeps presentation separate from data and routing logic, with reusable template mixins and dedicated print styling for the report documents.

@@ -1,0 +1,334 @@
+extends layouts/layout
+
+block content
+
+    // Worker Progress Report template
+    // Each page is rendered as a separate .page wrapper for screen and print
+
+    include mixins/header
+    include mixins/footer
+    include mixins/checkbox
+    include mixins/inputLine
+
+    .page
+        +header(data, title)
+
+        p.intro-text
+
+            strong.worker-name= data.workerName
+            |  provided the following updates in relation to their claim.
+
+        h2.section-title Return to Work
+
+        .section-box
+
+            .small-title Select one:
+            .three-column
+
+                .option
+                    +checkbox(!data.returnToWork.missedWork)
+                    | I have not missed time from work
+
+                .option
+                    +checkbox(!data.returnToWork.hasReturned)
+                    | I have not returned to work
+
+                .option
+                
+                    .option-content 
+                        +checkbox(data.returnToWork.hasReturned)
+                        span I returned to work on:
+                        .line-group.stack
+                            +inputLine(data.returnToWork.returnDate)
+                            .line-label Date 
+
+        .section-box
+
+            .small-title I am working:
+            p= data.returnToWork.dutyType
+            .checkbox-grid
+
+                .option
+                    +checkbox(data.returnToWork.dutyType === 'Full duties, regular hours')
+                    | Full duties, regular hours
+
+                .option
+                    +checkbox(data.returnToWork.dutyType === 'Full duties, reduced hours')
+                    | Full duties, reduced hours
+
+                .option
+                    +checkbox(data.returnToWork.dutyType === 'Modified duties, regular hours')
+                    | Modified duties, regular hours
+
+                .option
+                    +checkbox(true)
+                    | Modified duties, reduced hours
+
+                .option.other
+                    +checkbox(data.returnToWork.dutyType === "Other")
+                    span Other:
+                    +inputLine(data.returnToWork.otherDuty)
+
+
+
+        // Summary: user's perspective on return to work (display above expected return date)
+        .section-box
+
+            .small-title My return to work is going:
+
+            p.blue-text= data.returnToWork.concerns
+
+        .section-line
+
+            span I expect to return to work on:
+
+            .line-group
+
+                +inputLine(data.returnToWork.expectedReturnDate)
+
+                .line-label Date
+
+        .section-box.large-box 
+
+            .small-title I have the following concerns about returning to work:
+
+            p.blue-text= data.returnToWork.concerns
+
+        .contact-row
+
+            span I was most recently in contact with:
+
+            .line-group
+
+                +inputLine(data.returnToWork.employerContact)
+
+                .line-label (Name of employer contact)
+
+            span on
+
+            .line-group
+
+                +inputLine(data.returnToWork.contactDate)
+                .line-label (Date)
+
+
+        h2.section-title Recovery
+
+        .section-box
+
+            .small-title Select one:
+
+            .two-column
+
+                .option
+                    +checkbox(!data.recovery.fullyRecovered)
+                    | I have not fully recovered from my workplace injury.
+
+                .option
+                    +checkbox(data.recovery.fullyRecovered)
+                    | I have fully recovered from my workplace injury.
+
+        .section-box.large-box
+
+            .small-title I have provided the following comments about my recovery:
+
+            p.blue-text
+                = data.recovery.comments
+        +footer(1,3,data)
+
+    // Page 2: pain, treatment, medications, exercises, other information
+    .page.page-break
+
+        h2.section-title Pain / Discomfort
+
+        p
+            | I rate my current pain/discomfort on a scale of 1–10 where 1 is no pain and 10 is severe pain.
+
+        .pain-scale
+
+            each number in [1,2,3,4,5,6,7,8,9,10]
+
+                - var selected = number == data.painLevel
+
+                .pain-option
+                    +checkbox(selected)
+                    | #{number}
+
+        h2.section-title Medical Treatment
+
+        .section-box
+
+            .small-title Select one:
+
+            .three-column
+
+                .option
+                    +checkbox(!data.treatment.receivingTreatment)
+                    | I am not continuing to receive medical treatment.
+
+                .option
+                    +checkbox(data.treatment.receivingTreatment)
+                    | I am continuing to receive medical treatment.
+
+                .line-group
+
+                    +inputLine(data.returnToWork.medicalProviderType)
+
+                    .line-label (Medical provider type)
+
+        .section-line
+
+
+            .small-title My last medical treatment was:
+
+            .contact-row
+
+                .line-group
+                    +inputLine(data.treatment.lastTreatmentDate)
+                    .line-label (Date)
+
+                span from
+                .line-group
+
+                    +inputLine(data.treatment.providerName)
+
+                    .line-label (Medical provider name)
+        
+        .section-line
+
+
+            .small-title My next medical treatment is:
+
+            .contact-row
+
+                .line-group
+                    +inputLine(data.treatment.nextTreatmentDate)
+                    .line-label (Date)
+
+                span from
+                .line-group
+
+                    +inputLine(data.treatment.providerName)
+
+                    .line-label (Medical provider name)
+        
+        
+        .section-line
+
+
+            .small-title I am attending a Chiropractor or Physiotherapist 
+
+
+
+            .line-group
+
+                    +inputLine(data.treatment.frequencyOfTreatment)
+
+                    .line-label (Frequency of treatment)
+        
+
+
+        h2.section-title Medication
+
+        .section-box
+
+            .small-title Select one:
+
+            .three-column
+
+                .option
+                    +checkbox(!data.medication.takingMedication)
+                    | I am not taking medication for my workplace injury.
+
+                .option
+                    +checkbox(data.medication.takingMedication)
+                    | I am taking medication for my workplace injury.
+
+                
+                .line-group
+
+                    +inputLine(data.medication.medicineName)
+
+                    .line-label (Name of prescribed medication)
+
+        .section-box
+
+            .small-title Select one:
+
+            .three-column
+
+                .option
+                    +checkbox(!data.homeExercise.doingExercise)
+                    | I am not doing home exercises for my workplace injury
+
+                .option
+                    +checkbox(data.homeExercise.doingExercise)
+                    | I am doing home exercises for my workplace injury.
+
+        .section-box
+
+            .small-title List the exercises you are doing:
+
+            p.blue-text
+                = data.homeExercise.exerciseList
+
+        h2.section-title Other Information
+
+        .section-box
+
+            .small-title I would like to provide the following additional information about my claim/injury:
+
+            p.blue-text
+                = data.otherInformation.comments
+
+        +footer(2,3,data)
+
+    // Page 3: declaration and signature
+    .page.page-break
+
+        h2.section-title Declaration
+
+        .declaration-text
+            +checkbox(true)
+
+            p 
+                | I certify that the information given on this form is true, correct and complete to the best of my knowledge.
+                |  I agree to notify the Workers Compensation Board of Manitoba (WCB) immediately once I return to any form of work and/or employment.
+                |  I understand that it is an offence to knowingly make a false statement to the WCB.
+                |  I also understand that it is an offence to withhold information from the WCB which affects my entitlement to compensation (e.g., full or partial recovery from injury, ability to return to work, sources of additional income, etc.).
+                |  I understand that refusing to co-operate with, or follow my treatment, may result in the WCB reducing or suspending my benefits.
+
+        .notice
+
+            +checkbox(true)
+            span
+                | I understand that the 
+                a(href="#") Privacy Notice
+                |  applies to the personal information collected in this document.
+
+        .signature-row
+
+            .signature-column 
+
+                strong Worker Signature
+                br
+                br
+                br
+
+
+                +inputLine()
+
+            .signature-column
+
+                strong Date
+
+                br
+                br
+                br
+
+
+                +inputLine()
+
+        
+
+        +footer(3,3,data)

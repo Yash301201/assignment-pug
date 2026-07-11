@@ -1,0 +1,30 @@
+mixin header(data, title)
+
+    - var showWP = title === 'Worker Progress Report'
+
+    .pdf-header
+
+        .left-section
+
+            img.logo(src="/images/logo.png", alt="WCB Logo")
+
+            .office-details
+                p 333 Broadway
+                p Winnipeg, MB R3C 4W3
+                p Phone: (204) 954-4321
+                p Toll Free: 1-855-954-4321
+                p wcb.mb.ca
+
+        .right-section
+
+            h2.form-title= title
+
+            .header-boxes
+
+                .claim-box
+                    .claim-title Claim No.
+                    .claim-value= data.claimNo
+
+                if showWP
+                    .wp-box
+                        | WP

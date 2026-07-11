@@ -1,0 +1,21 @@
+mixin table(headers, rows)
+
+    table.form-table
+
+        thead
+
+            tr
+
+                each header in headers
+
+                    th= header
+
+        tbody
+
+            each row in rows
+
+                tr
+
+                    each value in row
+
+                        td= value

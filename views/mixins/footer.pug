@@ -1,0 +1,27 @@
+mixin footer(page,total,data)
+
+    footer.page-footer
+
+        .footer-left
+
+            strong Worker App ID:
+
+            if data && data.workerAppId
+                |  #{data.workerAppId}
+            else
+                |  N/A
+
+        .footer-right
+
+            div
+
+                strong Submitted:
+
+                if data && data.submittedDate
+                    |  #{data.submittedDate}
+                else
+                    |  N/A
+
+            div
+
+                | Page #{page} of #{total}
